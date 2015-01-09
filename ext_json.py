@@ -44,3 +44,16 @@
             for line in text:
                     data = json.loads(line)
                     print data["requestDate"],data["appData"]["_request_params"]["params"]["q"]
+
+# to remove the unicode below code will work
+import re
+    import json
+    import sys
+    file1 = sys.argv[1]
+    with open(file1) as text:
+            for line in text:
+                    data = json.loads(line)
+                    query = (data["appData"]["_request_params"]["params"]["q"])[0]
+                    query = query.replace(auto_prefix, "")
+                    print data["requestDate"],"-",query.encode('utf-8')
+
