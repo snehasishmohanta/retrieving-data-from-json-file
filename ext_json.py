@@ -57,3 +57,40 @@ import re
                     query = query.replace(auto_prefix, "")
                     print data["requestDate"],"-",query.encode('utf-8')
 
+# to remove if page value > 1
+
+
+import re
+import json
+import sys
+auto_prefix = u'\u200B'
+file1 = sys.argv[1]
+with open(file1) as text:
+        for line in text:
+                data = json.loads(line)
+                if data["appData"]["_request_params"]["params"].has_key("page"):
+                        page = (data["appData"]["_request_params"]["params"]["page"])[0]
+                        #print page
+                        if page == "1":
+                                try:
+                                        query = (data["appData"]["_request_params"]["params"]["q"])[0]                                          
+                                        if auto_prefix in query:
+                                                query = query.replace(auto_prefix, "")
+                                                print data["requestDate"],",",query.encode('utf-8'), ", TRUE"
+                                        else:
+                                                print data["requestDate"],",",query.encode('utf-8'), ", FALSE"
+                                except KeyError:
+                                        pass
+
+                        else:
+                                pass
+                else:
+                        try:
+                                query = (data["appData"]["_request_params"]["params"]["q"])[0]
+                                if auto_prefix in query:
+                                        query = query.replace(auto_prefix, "")
+                                        print data["requestDate"],",",query.encode('utf-8'), ", TRUE"
+                                else:
+                                        print data["requestDate"],",",query.encode('utf-8'), ", FALSE"
+                        except KeyError:
+                                pass
